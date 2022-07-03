@@ -1,0 +1,38 @@
+.container{
+    height: 100vh;
+    width: 100%;
+}
+
+.header{
+    height: 10vh;
+    width: 100%;
+    background-color: rgb(49, 34, 63);
+}
+.lowepart{
+    height: 88vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.statsandgooglemap{
+    height: 88vh;
+    width: 75%;
+    /* background-color: blueviolet; */
+}
+.sidebar{
+    height: 88vh;
+    width: 25%;
+    background-color: black;
+}
+.stats{
+    height: 30vh;
+    width: 100%;
+    background-color: rgb(67, 89, 109);
+}
+.map{
+    height: 57vh;
+    width: 100%;
+    background-color: rgb(139, 250, 250);
+}
