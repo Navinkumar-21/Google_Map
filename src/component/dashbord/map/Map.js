@@ -1,6 +1,5 @@
-import React from 'react'
+import React, {useEffect ,useState } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-
 const containerStyle = {
   width: '100%',
   height: '100%',
@@ -11,7 +10,7 @@ const center = {
   lng: 121.525
 };
 
-let markers = [
+/*let markersTest = [
   {
     id: 1,
     latitudeTest: 25.0391667,
@@ -38,9 +37,10 @@ let markers = [
     id: 4,
     latitudeTest: 9.548517279887355,
     longitudeTest: 78.57553782078467,
-    shelter: 'marker 3'
+    shelter: 'marker 4'
   }
-]
+]*/
+// 
 // position={{
 
 //     lat: 47.444,
@@ -49,13 +49,29 @@ let markers = [
 
 // }}
 
+let markers = []
 function MyComponent() {
+  const [map, setMap] = useState(null)
+  const[markerlocation , setMarkerlocation] = useState()
+  
+
+  function getData(){
+    return fetch('../../data.json')
+    .then((res) => res.json())
+    .then((data) => {
+      setMarkerlocation(data)
+    })
+  }
+  
+   function getPromiseData(){
+   return Promise.all([getData()])
+  }
+  
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: "AIzaSyDykLcSVPpD9Kw0VoZUkrlpMOCKOVWs7Bg"
   })
 
-  const [map, setMap] = React.useState(null)
 
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds(center);
@@ -67,17 +83,22 @@ function MyComponent() {
     setMap(null)
   }, [])
 
+  useEffect(() => {
+    getData()
+  } ,[])
   // return isLoaded ? "true" : "false"
+// When this Promise resolves, both values will be available.
 
+// console.log("markers" , markerlocation); 
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={4}
+      zoom={1}
       onLoad={onLoad}
-      onUnmount={onUnmount}
+       onUnmount={onUnmount}
     >
-      {markers.map((marker) => {
+      {markerlocation && markerlocation.map((marker) => {
         return (
 
           <Marker
@@ -86,12 +107,12 @@ function MyComponent() {
             key={marker.id}
             position={{ lat: marker.latitudeTest, lng: marker.longitudeTest }}
             title="Click to zoom"
+
           >
           </Marker>
         );
       })}
     </GoogleMap>
   ) : <></>
-}
-
-export default MyComponent
+  }
+   export default MyComponent
